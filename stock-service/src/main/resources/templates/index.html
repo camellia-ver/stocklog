@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Insight</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<!-- 네비게이션 바 포함 -->
+<th:block th:insert="~{fregments/nav.html}"></th:block>
+
+<!-- 메인 섹션 -->
+<header class="hero text-center text-white">
+    <div class="container">
+        <h1>주식 정보를 한눈에! Stock Insight</h1>
+        <p>관심 주식을 추가하고, 메모를 남기고, 변동을 예측하세요.</p>
+        <a href="#" class="btn btn-primary btn-lg mt-3">지금 시작하기</a>
+    </div>
+</header>
+
+<!-- 푸터 -->
+<footer class="footer text-center text-white mt-5">
+    <p>© 2025 Stock Insight. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
