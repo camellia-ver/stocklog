@@ -1,0 +1,68 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* 남는 공간을 자동으로 차지 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+    color: #2c3e50;
+}
+
+.navbar {
+    background-color: white !important;
+    font-weight: bold;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: #e84393 !important;
+}
+
+.navbar .nav-link:hover {
+    color: #d63075 !important;
+}
+
+footer {
+    width: 100%;
+    background-color: #e84393;
+    color: white;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.custom-btn{
+    background-color: #e84393;
+    border-color: #e84393;
+    color: white;
+}
+
+.custom-btn:hover{
+    background-color: #d63075;
+    border-color: #d63075;
+    transform: scale(1.05);
+}
+
+button {
+    box-shadow: 0px 4px 6px rgba(232, 67, 147, 0.3);
+    margin-top: 20px;
+}
+
+button:active {
+    box-shadow: 0px 2px 4px rgba(232, 67, 147, 0.5);
+}
+
+h1 {
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #2c3e50;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+}
