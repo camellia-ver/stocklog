@@ -1,5 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-body {
+html, body {
     font-family: 'Noto Sans', 'Noto Sans KR', sans-serif;
+    height: 100vh; /* 전체 화면 높이 */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* 남은 공간을 자동으로 차지 */
+    min-height: 0; /* flex가 정상 작동하도록 설정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+    color: #2c3e50;
+}
+
+.navbar {
+    background-color: white !important;
+    font-weight: bold;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: #e84393 !important;
+}
+
+.navbar .nav-link:hover {
+    color: #d63075 !important;
+}
+
+footer {
+    width: 100%;
+    background-color: #e84393;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto;
 }
