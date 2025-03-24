@@ -1,3 +1,9 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 .login-btn{
     background-color: #e84393;
     border-color: #e84393;

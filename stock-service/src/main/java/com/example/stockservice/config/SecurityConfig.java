@@ -15,7 +15,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/login").permitAll()  // ✅ 인증 없이 접근 허용
+                        .requestMatchers("/", "/home", "/login", "/signup").permitAll()  // ✅ 인증 없이 접근 허용
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()  // ✅ 정적 리소스 허용
                         .anyRequest().authenticated()  // 그 외 요청은 인증 필요
                 )
