@@ -1,15 +1,12 @@
-main {
-     padding-bottom: 50px !important;
-}
-
 .card {
-    max-width: 500px;
-    width: 100%;
+    width: 90%;
+    height: 90%;
     padding: 30px;
     border-radius: 10px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+    overflow: auto;
+    max-height: 80vh;
 }
 
 @media (max-width: 768px) {
