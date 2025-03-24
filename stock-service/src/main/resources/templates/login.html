@@ -14,7 +14,7 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Stock Log</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,15 +26,19 @@
 
 <main>
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-4">
+        <div class="card p-4 shadow-lg" style="max-width: 400px;">
             <div class="card-body">
-                <h5 class="card-title text-center">Login</h5>
+                <h5 class="card-title text-center mb-4">Login</h5>
                 <form action="/signup" method="post">
-                    <input type="text" class="form-control w-100" placeholder="아이디">
-                    <input type="password" class="form-control w-100 mt-2" placeholder="비밀번호">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="아이디" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" placeholder="비밀번호" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 mt-3 login-btn">Login</button>
                 </form>
-                <button type="submit" class="btn btn-success w-100 mt-3 login-btn">Login</button>
-                <a href="/signup" class="btn btn-secondary w-100 mt-2 signup-btn">회원가입</a>
+                <a href="/signup" class="btn btn-outline-secondary w-100 mt-3 signup-btn">회원가입</a>
             </div>
         </div>
     </div>

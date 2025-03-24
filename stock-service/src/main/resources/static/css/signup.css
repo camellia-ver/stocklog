@@ -1,17 +1,17 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+main {
+     padding-bottom: 50px !important;
 }
 
-/* 기본 스타일: 큰 화면에서 카드의 최대 너비와 여백 설정 */
 .card {
-    max-width: 600px;
-    width: 100%; /* 기본적으로 카드가 화면 너비에 맞게 확장됨 */
-    margin: 20px auto; /* 화면 가운데로 배치 */
+    max-width: 500px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
-/* 작은 화면에서 카드의 너비를 100%로 확장 */
 @media (max-width: 768px) {
     .card {
         max-width: 100%;
@@ -38,7 +38,10 @@
 
 /* 기본 폰트 크기 */
 .card-title {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    color: #2c3e50;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .signup-btn {
@@ -76,7 +79,16 @@ label {
 }
 
 input {
-    margin-bottom: 1rem; /* 각 입력 필드와 다음 필드 사이에 여백 추가 */
+    margin-bottom: 1.5rem;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+input:focus {
+    border-color: #e84393;
+    outline: none;
 }
 
 #suggestions li {

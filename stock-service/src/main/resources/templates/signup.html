@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="/css/signup.css">
     <link rel="stylesheet" href="/css/custom.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Stock Log</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,27 +24,35 @@
     </nav>
 </header>
 
-<main>
+<main class="flex-grow-1">
     <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-5">
+        <div class="card p-5 shadow-lg" style="max-width: 500px; width: 100%; border-radius: 10px;">
             <div class="card-body">
-                <h5 class="card-title text-center">회원가입</h5>
+                <h5 class="card-title text-center mb-4">회원가입</h5>
                 <form action="/signup" method="post">
-                    <label for="name">이름</label>
-                    <input type="text" id="name" class="form-control w-100" placeholder="이름" required>
-                    <label for="email">이메일</label>
-                    <input type="email" id="email" class="form-control w-100 mt-2" placeholder="이메일" required>
-                    <label for="pw">비밀번호</label>
-                    <input type="password" id="pw" class="form-control w-100 mt-2" placeholder="비밀번호" required minlength="6">
-                    <label for="pw-check">비밀번호 확인</label>
-                    <input type="password" id="pw-check" class="form-control w-100 mt-2" placeholder="비밀번호 확인" required>
-                    <div class="autocomplete">
-                        <label for="stockSearch">관심 주식 설정하기</label>
-                        <input type="text" id="stockSearch" class="form-control mt-2" placeholder="종목 검색">
-                        <ul id="suggestions" class="list-group"></ul>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">이름</label>
+                        <input type="text" id="name" class="form-control" placeholder="이름" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">이메일</label>
+                        <input type="email" id="email" class="form-control" placeholder="이메일" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pw" class="form-label">비밀번호</label>
+                        <input type="password" id="pw" class="form-control" placeholder="비밀번호" required minlength="6">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pw-check" class="form-label">비밀번호 확인</label>
+                        <input type="password" id="pw-check" class="form-control" placeholder="비밀번호 확인" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stockSearch" class="form-label">관심 주식 설정하기</label>
+                        <input type="text" id="stockSearch" class="form-control" placeholder="종목 검색">
+                        <ul id="suggestions" class="list-group mt-2"></ul>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3 signup-btn">회원가입</button>
                 </form>
-                <button type="submit" class="btn btn-secondary w-100 mt-2 signup-btn">회원가입</button>
             </div>
         </div>
     </div>
