@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -16,7 +15,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/home", "/login", "/signup").permitAll()  // ✅ 인증 없이 접근 허용
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()  // ✅ 정적 리소스 허용
+                        .requestMatchers("/css/**", "/static/js/**", "/images/**", "/favicon.ico").permitAll()  // ✅ 정적 리소스 허용
                         .anyRequest().authenticated()  // 그 외 요청은 인증 필요
                 )
                 .formLogin(form -> form
