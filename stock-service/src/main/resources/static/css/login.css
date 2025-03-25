@@ -41,8 +41,16 @@ input.form-control {
 }
 
 .login-btn:active {
+    background-color: #d63075 !important;
+    border-color: #d63075 !important;
     transform: scale(0.98);
     box-shadow: 0px 2px 4px rgba(232, 67, 147, 0.5);
+    outline: none !important;
+}
+
+.login-btn:focus {
+    outline: none !important;  /* 기본 outline 제거 */
+    box-shadow: none !important; /* 포커스 상태에서 기본 box-shadow 제거 */
 }
 
 .signup-btn{
@@ -61,8 +69,16 @@ input.form-control {
 }
 
 .signup-btn:active {
+    background-color: #d63075 !important;
+    border-color: #d63075 !important;
     transform: scale(0.98);
-    box-shadow: 0px 2px 4px rgba(99, 110, 114, 0.5);
+    box-shadow: 0px 2px 4px rgba(232, 67, 147, 0.5);
+    outline: none !important;
+}
+
+.signup-btn:focus {
+    outline: none !important;  /* 기본 outline 제거 */
+    box-shadow: none !important; /* 포커스 상태에서 기본 box-shadow 제거 */
 }
 
 .card-title {

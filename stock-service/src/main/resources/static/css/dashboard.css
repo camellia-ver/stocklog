@@ -52,3 +52,39 @@ h2 {
       width: 100%;
     }
 }
+
+.floating-add-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    background-color: #e84393;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-color: #e84393;
+}
+
+.floating-add-btn:hover {
+    background-color: #d63075;
+    border-color: #d63075;
+}
+
+.floating-add-btn:active {
+    background-color: #d63075 !important;
+    border-color: #d63075 !important;
+    transform: scale(0.98);
+    box-shadow: 0px 2px 4px rgba(232, 67, 147, 0.5);
+    outline: none !important;
+}
+
+.floating-add-btn:focus {
+    outline: none !important;  /* 기본 outline 제거 */
+    box-shadow: none !important; /* 포커스 상태에서 기본 box-shadow 제거 */
+}
