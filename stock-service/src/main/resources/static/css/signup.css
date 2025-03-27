@@ -1,12 +1,18 @@
 .card {
-    width: 90%;
-    height: 90%;
-    padding: 30px;
-    border-radius: 10px;
+    width: 100%;
+    max-width: 500px; /* 카드의 최대 크기를 조정 */
+    border-radius: 12px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: auto;
-    max-height: 80vh;
+    margin: 40px 0;
+}
+
+.card-body {
+    width: 100%;
+}
+
+form {
+    width: 100%;
 }
 
 @media (max-width: 768px) {
