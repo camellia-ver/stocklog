@@ -10,10 +10,10 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <link rel="stylesheet" href="/css/memo-update.cs">
     <link rel="stylesheet" href="/css/custom.css">
-    <link rel="stylesheet" href="/css/stock-detail.css">
 
-    <script src="/js/stock-detail.js"></script>
+    <script src="/js/memo-update.js"></script>
 </head>
 <body>
 <div th:replace="~{fragments/nav :: header}"></div>
@@ -21,26 +21,17 @@
 <main>
     <div class="big-card">
         <h2>주식명</h2>
-        <div class="graph-container">
-            그래프
-        </div>
-        <div>
-            <h4>예상주식가</h4>
-            <p>10000원</p>
-        </div>
+        <h4>날짜</h4>
         <div class="memo-container mb-3">
             <form action="/write_memo" method="post">
-                <label for="markdown-editor" class="form-label">메모</label>
-                <textarea class="form-control" placeholder="내용을 입력해주세요." id="markdown-editor"></textarea>
+                <textarea class="form-control" id="markdown-editor">
+
+                </textarea>
                 <div class="text-end mt-2">
                     <button type="submit" class="btn btn-primary save-btn">저장</button>
+                    <button type="button" class="btn btn-primary cancel-btn">취소</button>
                 </div>
             </form>
-        </div>
-        <div class="table-containter">
-            <table>
-
-            </table>
         </div>
     </div>
 </main>

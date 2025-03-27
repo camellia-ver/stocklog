@@ -29,3 +29,14 @@ textarea {
     border: 1px solid #ccc;
     padding: 10px
 }
+
+.save-btn {
+    background-color: #e84393;
+    border-color: #e84393;
+    color: white;
+}
+
+.save-btn:hover {
+    background-color: #d63075;
+    border-color: #d63075;
+}

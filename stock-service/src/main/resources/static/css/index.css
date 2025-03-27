@@ -1,23 +1,32 @@
-.custom-btn{
+.custom-btn {
     background-color: #e84393;
     border-color: #e84393;
     color: white;
+    box-shadow: 0px 4px 6px rgba(232, 67, 147, 0.3);
+    margin-top: 20px;
+    cursor: pointer; /* 버튼에 커서 스타일 추가 */
+    transition: all 0.3s ease; /* 부드러운 트랜지션 효과 추가 */
 }
 
-.custom-btn:hover{
+.custom-btn:hover {
     background-color: #d63075;
     border-color: #d63075;
     transform: scale(1.05);
+    box-shadow: 0px 6px 10px rgba(232, 67, 147, 0.4); /* 그림자 효과 강화 */
 }
 
-button {
-    box-shadow: 0px 4px 6px rgba(232, 67, 147, 0.3);
-    margin-top: 20px;
-}
-
-button:active {
+.custom-btn:active {
     box-shadow: 0px 2px 4px rgba(232, 67, 147, 0.5);
+    transform: scale(1); /* 클릭 시 버튼 크기 복원 */
 }
+
+.custom-btn:focus {
+    outline: none !important;  /* 기본 outline 제거 */
+    box-shadow: 0px 0px 0px 3px rgba(232, 67, 147, 0.5) !important;  /* 포커스 시 외곽선 색상 추가 */
+    background-color: #e84393 !important;  /* 포커스 시 배경색 유지 */
+    border-color: #e84393 !important;  /* 포커스 시 테두리 색 유지 */
+}
+
 
 h1 {
     letter-spacing: 2px;
