@@ -28,12 +28,12 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")  // 로그인 페이지 지정
-                        .defaultSuccessUrl("/", true)  // 로그인 성공 후 리디렉션
+                        .defaultSuccessUrl("/dashboard", true)  // 로그인 성공 후 리디렉션
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/login")
                         .permitAll()
                 )
 //                .csrf(AbstractHttpConfigurer::disable)  // CSRF 비활성화 (테스트용)
