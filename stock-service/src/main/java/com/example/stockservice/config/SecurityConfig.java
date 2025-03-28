@@ -1,15 +1,23 @@
 package com.example.stockservice.config;
 
+import com.example.stockservice.service.UserDetailService;
+import com.example.stockservice.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final UserDetailService userDetailService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -32,5 +40,19 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
         return http.build();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailService);
+        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 }

@@ -29,7 +29,7 @@
         <div class="card p-5 shadow-lg" style="max-width: 700px; border-radius: 10px;">
             <div class="card-body">
                 <h5 class="card-title text-center mb-4">회원가입</h5>
-                <form action="/signup" method="post">
+                <form th:action="@{${type}}" method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">이름</label>
                         <input type="text" id="name" class="form-control" placeholder="이름" required>
@@ -58,7 +58,7 @@
                             <!-- 선택된 주식들이 여기에 표시됨 -->
                         </ul>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 mt-3 signup-btn">회원가입</button>
+                    <button type="submit" class="btn btn-primary w-100 mt-3 signup-btn" th:text="${type} == 'signup' ? '회원가입' : '수정'"></button>
                 </form>
             </div>
         </div>

@@ -28,13 +28,21 @@ public class UserService {
     public void join(UserDTO dto){
         validateDuplicateUser(dto.getEmail());
 
-        userRepository.save(User.builder()
+        String encodedPassword = Optional.ofNullable(dto.getPassword())
+                        .map(bCryptPasswordEncoder::encode)
+                                .orElseThrow(() -> new IllegalArgumentException("비밀번호는 필수 입력값입니다."));
+
+        List<Stock> favoriteStocks = reshapeToStockList(dto.getFavoriteStockList());
+
+        User newUser = User.builder()
                 .name(dto.getName())
                 .email(dto.getEmail())
-                .password(bCryptPasswordEncoder.encode(dto.getPassword()))
-                .favoriteStocks(reshapeToStockList(dto.getFavoriteStockList()))
+                .password(encodedPassword)
+                .favoriteStocks(favoriteStocks)
                 .createDate(LocalDateTime.now(ZoneOffset.UTC))
-                .build());
+                .build();
+
+        userRepository.save(newUser);
     }
 
     private List<Stock> reshapeToStockList(List<String> favoriteStockList){
@@ -42,18 +50,20 @@ public class UserService {
 
         if (!favoriteStockList.isEmpty()) {
             for (String stock : favoriteStockList) {
-                Optional<Stock> stockOptional = stockRepository.findByIsinCd(stock);
-                stockOptional.ifPresent(result::add);
+                Stock stockEntity = stockRepository.findByIsinCd(stock)
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 종목 코드입니다: " + stock));
+                result.add(stockEntity);
             }
         }
 
         return result;
     }
 
-    private void validateDuplicateUser(String mail){
-        Optional<User> findUser = userRepository.findByEmail(mail);
-        if (findUser.isPresent()){
+    private void validateDuplicateUser(String email){
+        if (userRepository.existByEmail(email)){
             throw new IllegalStateException("이미 존재하는 이메일 주소입니다.");
         }
     }
+
+
 }
