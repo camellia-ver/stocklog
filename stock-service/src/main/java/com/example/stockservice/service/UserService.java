@@ -60,7 +60,7 @@ public class UserService {
     }
 
     private void validateDuplicateUser(String email){
-        if (userRepository.existByEmail(email)){
+        if (userRepository.existsByEmail(email)){
             throw new IllegalStateException("이미 존재하는 이메일 주소입니다.");
         }
     }
