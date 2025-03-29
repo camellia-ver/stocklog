@@ -1,7 +1,6 @@
 package com.example.stockservice.dto;
 
 import com.example.stockservice.domain.User;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@XmlRootElement
 public class StockDTO {
     private Long srtnCd;
     private List<User> users;
