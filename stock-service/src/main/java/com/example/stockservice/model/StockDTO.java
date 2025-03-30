@@ -1,16 +1,13 @@
-package com.example.stockservice.dto;
+package com.example.stockservice.model;
 
-import com.example.stockservice.domain.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
-
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StockDTO {
-    private Long srtnCd;
-    private List<User> users;
+    private String srtnCd;
     private String isinCd;
     private String itmsNm;
     private String mrktCtg;

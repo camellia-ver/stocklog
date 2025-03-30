@@ -2,7 +2,7 @@ package com.example.stockservice.service;
 
 import com.example.stockservice.domain.Stock;
 import com.example.stockservice.domain.User;
-import com.example.stockservice.dto.UserDTO;
+import com.example.stockservice.model.UserDTO;
 import com.example.stockservice.repository.StockRepository;
 import com.example.stockservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

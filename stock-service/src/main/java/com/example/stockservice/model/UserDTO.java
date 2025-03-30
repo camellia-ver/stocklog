@@ -1,12 +1,9 @@
-package com.example.stockservice.dto;
+package com.example.stockservice.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class UserDTO {
     private String name;
     private String email;

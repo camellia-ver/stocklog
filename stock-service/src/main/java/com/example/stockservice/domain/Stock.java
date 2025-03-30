@@ -12,7 +12,7 @@ import java.util.List;
 public class Stock {
     @Id
     @Column(name = "srtnCd", updatable = false)
-    private Long srtnCd;
+    private String srtnCd;
 
     @ManyToMany(mappedBy = "favoriteStocks")
     private List<User> users;
