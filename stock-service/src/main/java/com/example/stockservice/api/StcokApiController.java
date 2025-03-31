@@ -12,6 +12,7 @@ public class StcokApiController {
 
     @GetMapping("/fetch-stock-data")
     public String fetchStockData() {
-        return "";
+        stockService.fetchStockData(1,1);
+        return "OK";
     }
 }

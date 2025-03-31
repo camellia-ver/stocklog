@@ -1,7 +1,8 @@
 package com.example.stockservice.service;
 
 import com.example.stockservice.config.ApiKeyConfig;
-import com.example.stockservice.model.StockDTO;
+import com.example.stockservice.domain.Stock;
+import com.example.stockservice.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -17,7 +18,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +28,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StockService {
     private final ApiKeyConfig apiKeyConfig;
+    private final StockRepository stockRepository;
 
     public void fetchStockData(int numOfRows, int pageNo){
         String apiUrl = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey="
-                + apiKeyConfig.getApiKey()
+                + apiKeyConfig.getKey()
                 + "&numOfRows=" + numOfRows
                 + "&pageNo=" + pageNo;
-
         HttpURLConnection connection = null;
 
         try{
-            URL url = new URL(apiUrl);
+            URI uri = URI.create(apiUrl);
+            URL url = uri.toURL();
             connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(10000);
@@ -46,7 +50,7 @@ public class StockService {
                 throw new IllegalStateException("API 요청 실패: " + responseCode);
             }
 
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))){
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))){
                 String inputLine;
                 StringBuilder response = new StringBuilder();
 
@@ -54,8 +58,7 @@ public class StockService {
                     response.append(inputLine);
                 }
 
-                List<StockDTO> stockList = parseStockData(response.toString());
-                stockList.forEach(System.out::println);
+                parseStockData(response.toString());
             }
         }catch (IOException e){
             throw new IllegalStateException(e.getMessage());
@@ -66,9 +69,7 @@ public class StockService {
         }
     }
 
-    private List<StockDTO> parseStockData(String xmlResponse){
-        List<StockDTO> stockList = new ArrayList<>();
-
+    private void parseStockData(String xmlResponse){
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -76,12 +77,14 @@ public class StockService {
             Document doc = builder.parse(is);
 
             NodeList itemList = doc.getElementsByTagName("item");
+            List<Stock> stocks = new ArrayList<>();
             for (int i = 0; i < itemList.getLength(); i++) {
                 Node item = itemList.item(i);
+
                 if (item.getNodeType() == Node.ELEMENT_NODE){
                     Element element = (Element) item;
 
-                    StockDTO stock = StockDTO.builder()
+                    Stock stock = Stock.builder()
                             .srtnCd(getTextContent(element, "srtnCd"))
                             .isinCd(getTextContent(element, "isinCd"))
                             .itmsNm(getTextContent(element, "itmsNm"))
@@ -95,19 +98,21 @@ public class StockService {
                             .trqu(Integer.parseInt(getTextContent(element, "trqu")))
                             .trPrc(Integer.parseInt(getTextContent(element, "trPrc")))
                             .lstgStCnt(Integer.parseInt(getTextContent(element, "lstgStCnt")))
-                            .mrktTotAmt(Integer.parseInt(getTextContent(element, "mrktTotAmt")))
+                            .mrktTotAmt(Double.parseDouble(getTextContent(element, "mrktTotAmt")))
                             .build();
+
+                    stocks.add(stock);
                 }
             }
+            stockRepository.saveAll(stocks);
         } catch (Exception e) {
             throw new IllegalStateException(e.getMessage());
         }
-
-        return stockList;
     }
 
     private String getTextContent(Element element,String tagName){
         NodeList nodeList = element.getElementsByTagName(tagName);
-        return (nodeList.getLength() > 0) ? nodeList.item(0).getTextContent() : "";
+        String content = (nodeList.getLength() > 0) ? nodeList.item(0).getTextContent() : null;
+        return content != null ? content : "";
     }
 }

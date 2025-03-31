@@ -54,17 +54,19 @@ public class Stock {
     private Integer lstgStCnt;
 
     @Column(name = "mrktTotAmt", nullable = false)
-    private Integer mrktTotAmt;
+    private Double mrktTotAmt;
 
     private Stock(){}
 
     @Builder
-    public Stock(Long srtnCd,String isinCd,String itmsNm,Integer clpr,Integer vs,
-                 Double fltRt,Integer mkp,Integer hipr,Integer lopr,Integer trqu,
-                 Integer trPrc, Integer lstgStCnt,Integer mrktTotAmt){
+    public Stock(String srtnCd,String isinCd,String itmsNm,String mrktCtg,
+                 Integer clpr,Integer vs, Double fltRt,Integer mkp,Integer hipr,
+                 Integer lopr,Integer trqu, Integer trPrc, Integer lstgStCnt,
+                 Double mrktTotAmt){
         this.srtnCd = srtnCd;
         this.isinCd = isinCd;
         this.itmsNm = itmsNm;
+        this.mrktCtg = mrktCtg;
         this.clpr = clpr;
         this.vs = vs;
         this.fltRt = fltRt;

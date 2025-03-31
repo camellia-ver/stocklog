@@ -3,9 +3,6 @@ package com.example.stockservice.model;
 import lombok.*;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class StockDTO {
     private String srtnCd;
     private String isinCd;
@@ -20,5 +17,5 @@ public class StockDTO {
     private Integer trqu;
     private Integer trPrc;
     private Integer lstgStCnt;
-    private Integer mrktTotAmt;
+    private Double mrktTotAmt;
 }
