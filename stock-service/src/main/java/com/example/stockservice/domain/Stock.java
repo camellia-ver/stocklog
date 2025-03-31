@@ -45,13 +45,13 @@ public class Stock {
     private Integer lopr;
 
     @Column(name = "trqu", nullable = false)
-    private Integer trqu;
+    private Long trqu;
 
     @Column(name = "trPrc", nullable = false)
-    private Integer trPrc;
+    private Long trPrc;
 
     @Column(name = "lstgStCnt", nullable = false)
-    private Integer lstgStCnt;
+    private Long lstgStCnt;
 
     @Column(name = "mrktTotAmt", nullable = false)
     private Double mrktTotAmt;
@@ -61,7 +61,7 @@ public class Stock {
     @Builder
     public Stock(String srtnCd,String isinCd,String itmsNm,String mrktCtg,
                  Integer clpr,Integer vs, Double fltRt,Integer mkp,Integer hipr,
-                 Integer lopr,Integer trqu, Integer trPrc, Integer lstgStCnt,
+                 Integer lopr,Long trqu, Long trPrc, Long lstgStCnt,
                  Double mrktTotAmt){
         this.srtnCd = srtnCd;
         this.isinCd = isinCd;

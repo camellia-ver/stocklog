@@ -14,8 +14,8 @@ public class StockDTO {
     private Integer mkp;
     private Integer hipr;
     private Integer lopr;
-    private Integer trqu;
-    private Integer trPrc;
-    private Integer lstgStCnt;
+    private Long trqu;
+    private Long trPrc;
+    private Long lstgStCnt;
     private Double mrktTotAmt;
 }

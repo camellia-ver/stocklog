@@ -4,6 +4,7 @@ import com.example.stockservice.config.ApiKeyConfig;
 import com.example.stockservice.domain.Stock;
 import com.example.stockservice.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,7 +22,10 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,11 +34,20 @@ public class StockService {
     private final ApiKeyConfig apiKeyConfig;
     private final StockRepository stockRepository;
 
-    public void fetchStockData(int numOfRows, int pageNo){
+    @Scheduled(cron = "0 0 8 * * MON-FRI")
+    public void fetchStockData(){
+        int numOfRows = 9999;
+        int pageNo = 1;
+
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = today.format(formatter);
+
         String apiUrl = "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey="
                 + apiKeyConfig.getKey()
                 + "&numOfRows=" + numOfRows
-                + "&pageNo=" + pageNo;
+                + "&pageNo=" + pageNo
+                + "&basDt=" + formattedDate;
         HttpURLConnection connection = null;
 
         try{
@@ -95,9 +108,9 @@ public class StockService {
                             .mkp(Integer.parseInt(getTextContent(element, "mkp")))
                             .hipr(Integer.parseInt(getTextContent(element, "hipr")))
                             .lopr(Integer.parseInt(getTextContent(element, "lopr")))
-                            .trqu(Integer.parseInt(getTextContent(element, "trqu")))
-                            .trPrc(Integer.parseInt(getTextContent(element, "trPrc")))
-                            .lstgStCnt(Integer.parseInt(getTextContent(element, "lstgStCnt")))
+                            .trqu(Long.parseLong(getTextContent(element, "trqu")))
+                            .trPrc(Long.parseLong(getTextContent(element, "trPrc")))
+                            .lstgStCnt(Long.parseLong(getTextContent(element, "lstgStCnt")))
                             .mrktTotAmt(Double.parseDouble(getTextContent(element, "mrktTotAmt")))
                             .build();
 
