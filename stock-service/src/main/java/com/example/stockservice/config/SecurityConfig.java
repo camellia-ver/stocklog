@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -22,8 +24,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/home", "/login", "/signup").permitAll()  // ✅ 인증 없이 접근 허용
-                        .requestMatchers("/css/**", "/static/js/**", "/images/**", "/favicon.ico").permitAll()  // ✅ 정적 리소스 허용
+                        .requestMatchers("/", "/home", "/login", "/signup","/stocks/search").permitAll()  // ✅ 인증 없이 접근 허용
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()  // ✅ 정적 리소스 허용
                         .anyRequest().authenticated()  // 그 외 요청은 인증 필요
                 )
                 .formLogin(form -> form
@@ -36,7 +38,6 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/login")
                         .permitAll()
                 )
-//                .csrf(AbstractHttpConfigurer::disable)  // CSRF 비활성화 (테스트용)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
         return http.build();

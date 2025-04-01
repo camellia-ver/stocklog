@@ -34,6 +34,10 @@ public class StockService {
     private final ApiKeyConfig apiKeyConfig;
     private final StockRepository stockRepository;
 
+    public List<Stock> searchStocksByKeyword(String keyword){
+        return stockRepository.findByitmsNmContainingIgnoreCase(keyword).orElse(List.of());
+    }
+
     @Scheduled(cron = "0 0 8 * * MON-FRI")
     public void fetchStockData(){
         int numOfRows = 9999;

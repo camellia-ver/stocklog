@@ -1,10 +1,17 @@
+.container {
+    width: 100%;
+    max-width: 900px; /* 적절한 크기 지정 */
+}
+
 .card {
     width: 100%;
-    max-width: 500px; /* 카드의 최대 크기를 조정 */
+    max-height: 90vh; /* 카드가 화면을 넘지 않도록 설정 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */
     border-radius: 12px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 40px 0;
+    margin: auto;
+    padding: 20px;
 }
 
 .card-body {
@@ -13,6 +20,24 @@
 
 form {
     width: 100%;
+}
+
+#stockSearch {
+    max-width: 100%; /* 입력 필드가 화면 크기에 맞게 확장되도록 */
+}
+
+#suggestions {
+    max-height: 150px; /* 제안 목록의 최대 높이를 설정 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤바가 나타나도록 */
+}
+
+#selectedStocks {
+    max-height: 250px; /* 선택된 주식 목록의 최대 높이 */
+}
+
+#selectedList {
+    max-height: 180px; /* 선택된 종목 리스트의 최대 높이 */
+    overflow-y: auto; /* 스크롤이 가능하도록 설정 */
 }
 
 @media (max-width: 768px) {
@@ -37,6 +62,14 @@ form {
     .card-title {
         font-size: 1.5rem; /* 작은 화면에서 제목 크기 줄이기 */
     }
+
+    #suggestions, #selectedStocks {
+            max-height: 200px; /* 작은 화면에서 제안 목록과 선택 목록의 최대 높이 조정 */
+        }
+
+        #selectedList {
+            max-height: 150px; /* 선택된 목록의 최대 높이 */
+        }
 }
 
 /* 기본 폰트 크기 */
@@ -109,4 +142,16 @@ input:focus {
 
 #suggestions li:hover {
     background-color: #f0f0f0;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    font-weight: bold;
 }

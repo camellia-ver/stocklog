@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signupPage(Model model){
-        model.addAttribute("type","user");
+        model.addAttribute("type","signup");
         return "signup";
     }
 
