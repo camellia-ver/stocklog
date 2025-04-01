@@ -5,6 +5,7 @@ import com.example.stockservice.domain.User;
 import com.example.stockservice.model.UserDTO;
 import com.example.stockservice.repository.StockRepository;
 import com.example.stockservice.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,12 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
-    public void join(UserDTO dto){
+    public void join(@Valid UserDTO dto){
         validateDuplicateUser(dto.getEmail());
+
+        if (!dto.getPassword().equals(dto.getConfirmPassword())){
+            throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+        }
 
         String encodedPassword = Optional.ofNullable(dto.getPassword())
                         .map(bCryptPasswordEncoder::encode)

@@ -155,3 +155,7 @@ input:focus {
 .remove-btn:hover {
     font-weight: bold;
 }
+
+#confirmPassword{
+    margin-bottom:5px !important;
+}

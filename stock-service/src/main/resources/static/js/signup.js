@@ -1,4 +1,28 @@
 document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("confirmPassword").addEventListener("keyup", validatePassword);
+
+    function validatePassword(){
+        let password = document.getElementById('password').value;
+        let confirmPassword = document.getElementById('confirmPassword').value;
+        let message = document.getElementById("message");
+
+        let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordRegex.test(password)){
+            message.style.color = "red";
+            message.innerText = "비밀번호는 최소 8자, 영문/숫자/특수문자를 포함해야 합니다.";
+            return false;
+        }else if(password != confirmPassword){
+            message.style.color = "red";
+            message.innerText = "비밀번호가 일치하지 않습니다.";
+            return false;
+        }else{
+            message.style.color = "green";
+            message.innerText = "비밀번호가 유효하고 일치합니다.";
+            return true;
+        }
+    }
+
     let selectedStocks = []
     let debounceTimer;
 
