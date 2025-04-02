@@ -55,7 +55,7 @@ public class UserService {
 
         if (!favoriteStockList.isEmpty()) {
             for (String stock : favoriteStockList) {
-                Stock stockEntity = stockRepository.findBySrtnCd(stock)
+                Stock stockEntity = stockRepository.findByCode(stock)
                         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 종목 코드입니다: " + stock));
                 result.add(stockEntity);
             }

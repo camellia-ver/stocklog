@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
-    Optional<Stock> findBySrtnCd(String srtnCd);
-    Optional<List<Stock>> findByitmsNmContainingIgnoreCase(String keyword);
+    Optional<Stock> findByCode(String srtnCd);
+    Optional<List<Stock>> findByNameContainingIgnoreCase(String keyword);
 }

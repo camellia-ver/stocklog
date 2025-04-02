@@ -13,6 +13,6 @@ public class StockService {
     private final StockRepository stockRepository;
 
     public List<Stock> searchStocksByKeyword(String keyword){
-        return stockRepository.findByitmsNmContainingIgnoreCase(keyword).orElse(List.of());
+        return stockRepository.findByNameContainingIgnoreCase(keyword).orElse(List.of());
     }
 }

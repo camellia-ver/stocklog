@@ -4,18 +4,11 @@ import lombok.*;
 
 @Data
 public class StockDTO {
-    private String srtnCd;
-    private String isinCd;
-    private String itmsNm;
-    private String mrktCtg;
-    private Integer clpr;
-    private Integer vs;
-    private Double fltRt;
-    private Integer mkp;
-    private Integer hipr;
-    private Integer lopr;
-    private Long trqu;
-    private Long trPrc;
-    private Long lstgStCnt;
-    private Double mrktTotAmt;
+    private String code;
+    private String name;
+    private Double open;
+    private Double high;
+    private Double low;
+    private Double close;
+    private Long volume;
 }

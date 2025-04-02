@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.forEach(stock => {
                 let li = document.createElement("li");
                 li.className = "list-group-item list-group-item-action";
-                li.textContent = `${stock.itmsNm} (${stock.srtnCd})`;
+                li.textContent = `${stock.name} (${stock.code})`;
                 li.onclick = () => selectStock(stock);
                 suggestions.appendChild(li);
                 });
@@ -82,12 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function selectStock(stock){
-        if (selectedStocks.length >= 5) {
-            alert("최대 5개까지 선택할 수 있습니다.");
-            return;
-        }
-
-        if (selectedStocks.find(s => s.srtnCd === stock.srtnCd)){
+        if (selectedStocks.find(s => s.code === stock.code)){
             alert('이미 선택한 종목입니다.');
             return;
         }
@@ -106,20 +101,20 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedStocks.forEach(stock => {
             let li = document.createElement("li");
             li.className = "list-group-item d-flex justify-content-between";
-            li.textContent = `${stock.itmsNm} (${stock.srtnCd})`;
+            li.textContent = `${stock.name} (${stock.code})`;
 
             let removeBtn = document.createElement("button");
             removeBtn.className = "remove-btn";
             removeBtn.textContent = "❌";
-            removeBtn.onclick = () => removeStock(stock.srtnCd);
+            removeBtn.onclick = () => removeStock(stock.code);
             li.appendChild(removeBtn);
 
             selectedList.appendChild(li);
         });
     }
 
-    function removeStock(srtnCd) {
-        selectedStocks = selectedStocks.filter(stock => stock.srtnCd !== srtnCd);
+    function removeStock(code) {
+        selectedStocks = selectedStocks.filter(stock => stock.code !== code);
         updateSelectedStocks();
     }
 });
