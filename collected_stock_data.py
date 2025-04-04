@@ -1,2 +1,0 @@
-from pykrx import stock
-
