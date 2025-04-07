@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Table(name = "stock")
@@ -20,32 +21,19 @@ public class Stock {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "open", nullable = false)
-    private Double open;
+    @Column(name = "price", nullable = false)
+    private Long price;
 
-    @Column(name = "open", nullable = false)
-    private Double high;
-
-    @Column(name = "low", nullable = false)
-    private Double low;
-
-    @Column(name = "close", nullable = false)
-    private Double close;
-
-    @Column(name = "volume", nullable = false)
-    private Long volume;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createAt;
 
     private Stock(){}
 
     @Builder
-    public Stock(String code, String name, Double open, Double high,
-                 Double low, Double close, Long volume) {
+    public Stock(String code, String name, Long price, LocalDateTime createAt) {
         this.code = code;
         this.name = name;
-        this.open = open;
-        this.high = high;
-        this.low = low;
-        this.close = close;
-        this.volume = volume;
+        this.price = price;
+        this.createAt = createAt;
     }
 }
