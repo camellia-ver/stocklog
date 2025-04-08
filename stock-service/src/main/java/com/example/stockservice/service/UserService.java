@@ -1,7 +1,8 @@
 package com.example.stockservice.service;
 
-import com.example.stockservice.domain.Stock;
 import com.example.stockservice.domain.User;
+import com.example.stockservice.domain.UserInterestStock;
+import com.example.stockservice.model.InterestStockDTO;
 import com.example.stockservice.model.UserDTO;
 import com.example.stockservice.repository.StockRepository;
 import com.example.stockservice.repository.UserRepository;
@@ -13,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,35 +34,31 @@ public class UserService {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
         }
 
-        String encodedPassword = Optional.ofNullable(dto.getPassword())
+        String encodedPassword = Optional.of(dto.getPassword())
                         .map(bCryptPasswordEncoder::encode)
                                 .orElseThrow(() -> new IllegalArgumentException("비밀번호는 필수 입력값입니다."));
 
-        List<Stock> favoriteStocks = reshapeToStockList(dto.getFavoriteStockList());
+        List<UserInterestStock> userInterestStocks = reshapeToInterestStock(dto.getInterestStockList());
 
         User newUser = User.builder()
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .password(encodedPassword)
-                .favoriteStocks(favoriteStocks)
+                .interestStocks(userInterestStocks)
                 .createDate(LocalDateTime.now(ZoneOffset.UTC))
                 .build();
 
         userRepository.save(newUser);
     }
 
-    private List<Stock> reshapeToStockList(List<String> favoriteStockList){
-        List<Stock> result = new ArrayList<Stock>();
-
-        if (!favoriteStockList.isEmpty()) {
-            for (String stock : favoriteStockList) {
-                Stock stockEntity = stockRepository.findByCode(stock)
-                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 종목 코드입니다: " + stock));
-                result.add(stockEntity);
-            }
-        }
-
-        return result;
+    private List<UserInterestStock> reshapeToInterestStock(List<InterestStockDTO> stock){
+        return stock.stream()
+                .map(dto -> UserInterestStock.builder()
+                        .code(dto.getCode())
+                        .name(dto.getName())
+                        .market(dto.getMarket())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private void validateDuplicateUser(String email){
@@ -69,6 +66,4 @@ public class UserService {
             throw new IllegalStateException("이미 존재하는 이메일 주소입니다.");
         }
     }
-
-
 }

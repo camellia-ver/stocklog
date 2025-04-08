@@ -16,5 +16,5 @@ public class UserDTO {
     private String password;
     private String confirmPassword;
 
-    private List<String> favoriteStockList;
+    private List<InterestStockDTO> interestStockList;
 }

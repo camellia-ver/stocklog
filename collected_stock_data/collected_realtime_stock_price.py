@@ -30,7 +30,7 @@ def get_current_price(code:str) -> int:
         }
         response = requests.get(url, headers=headers, timeout=5)
         response.raise_for_status()
-
+    
         soup = BeautifulSoup(response.text, "html.parser")
         price_tag = soup.select_one("#chart_area div.rate_info div.today p.no_today span.blind")
         

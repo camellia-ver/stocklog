@@ -2,11 +2,11 @@ package com.example.stockservice.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.List;
 
 @Table(name = "user")
-@Getter
 @Entity
 public class User implements UserDetails, Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,32 +35,33 @@ public class User implements UserDetails, Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_favorite_stock",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "stock_id")
-    )
-    private List<Stock> favoriteStocks;
-
     @Column(name = "create_dt",nullable = false)
     private LocalDateTime createDate;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserInterestStock> interestStocks = new ArrayList<>();
+
+    public void addInterestStock(UserInterestStock stock){
+        this.interestStocks.add(stock);
+        stock.setUser(this);
+    }
+
 
     private User(){}
 
     @Builder
-    public User(String name,String email,String password,
-                List<Stock> favoriteStocks,LocalDateTime createDate){
+    public User(String name, String email, String password,
+                List<UserInterestStock> interestStocks , LocalDateTime createDate){
         this.name = name;
         this.email = email;
         this.password = password;
-        this.favoriteStocks = (favoriteStocks != null) ? favoriteStocks : new ArrayList<>();
+        this.interestStocks = interestStocks;
         this.createDate = (createDate != null) ? createDate : LocalDateTime.now();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
