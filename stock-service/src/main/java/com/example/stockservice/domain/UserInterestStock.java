@@ -2,31 +2,34 @@ package com.example.stockservice.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 
-@Table(name = "user")
 @Entity
+@Getter
 public class UserInterestStock {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "code", unique = true)
+    @Column(name = "code", nullable = false)
     private String code;
-    @Column(name = "name")
+
+    @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "market")
+
+    @Column(name = "market", nullable = false)
     private String market;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    private UserInterestStock(){}
-
     public void setUser(User user){
         this.user = user;
     }
+
+    private UserInterestStock(){}
 
     @Builder
     public UserInterestStock(String code, String name, String market){

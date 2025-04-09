@@ -1,7 +1,9 @@
 package com.example.stockservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,12 +12,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Table(name = "user")
 @Entity
+@Getter
 public class User implements UserDetails, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -32,10 +33,11 @@ public class User implements UserDetails, Serializable {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "create_dt",nullable = false)
+    @Column(name = "create_dt", nullable = false)
     private LocalDateTime createDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,7 +47,6 @@ public class User implements UserDetails, Serializable {
         this.interestStocks.add(stock);
         stock.setUser(this);
     }
-
 
     private User(){}
 
