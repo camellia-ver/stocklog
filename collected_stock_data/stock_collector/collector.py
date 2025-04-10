@@ -1,4 +1,4 @@
-from .price_fetcher import get_current_price
+from .price_fetcher import get_multiple_prices 
 from .utils import now_str, load_or_create_name_dict
 from .db import connect_db, save_stock_data_by_realtime, save_stock_data_by_daily
 from .logger import logger
@@ -20,18 +20,18 @@ def create_stock_data_by_realtime(codes:dict, duration_minutes:int):
 
         minute_data = []
         for category, code_list in codes.items():
-            for code in code_list:
-                price = get_current_price(code)
+            price_dict = get_multiple_prices(code_list)
+
+            for code, price in price_dict.items():
                 if price is not None:
                     minute_data.append({
-                        "시간": now_str(),
+                        "시간": now,
                         "종목코드":code,
-                        "종목명": name_dict.get(code, "Unknown"),   
-                        "현재가":price,
-                        "구분":category
+                        "종목명":name_dict.get(code, "Unknown"),
+                        "구분":category,
+                        "가격":price
                     })
                     logger.info(f"[{now}] {code} - {name_dict.get(code, 'Unknown')} : {price}원")
-                time.sleep(random.uniform(1.0,2.5))
 
         all_data.extend(minute_data)
         logger.info(f"[{now}] 수집완료: {len(minute_data)} 종목")
