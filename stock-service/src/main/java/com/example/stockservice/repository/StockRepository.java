@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface StockRepository extends JpaRepository<StockDailySummary, Long> {
-    Optional<StockDailySummary> findByCode(String srtnCd);
+    Optional<StockDailySummary> findByCode(String code);
     Optional<List<StockDailySummary>> findByNameContainingIgnoreCase(String keyword);
 }

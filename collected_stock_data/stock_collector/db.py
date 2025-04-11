@@ -25,9 +25,10 @@ def connect_db() -> pymysql.connections.Connection:
 def save_stock_data_by_realtime(datas: List[Dict], db_connect: pymysql.connections.Connection):
     cursor = db_connect.cursor(cursors.DictCursor)
 
-    insert_query = """INSERT INTO stock(code, name, price, created_at, market) VALUES(%s, %s, %s, %s, %s)"""
-    values = [(data['종목코드'],data['종목명'],data['현재가'],data['시간'],data['구분']) for data in datas]
-    
+    datas = datas.to_dict(orient='records')
+    insert_query = """INSERT INTO stock_realtime(code, name, price, created_at, market) VALUES(%s, %s, %s, %s, %s)"""
+    values = [(data['종목코드'],data['종목명'],data['가격'],data['시간'],data['구분']) for data in datas]
+
     try:
         cursor.executemany(insert_query, values)
         db_connect.commit()
@@ -37,7 +38,7 @@ def save_stock_data_by_realtime(datas: List[Dict], db_connect: pymysql.connectio
 def save_stock_data_by_daily(datas: List[Dict], db_connect: pymysql.connections.Connection):
     cursor = db_connect.cursor(cursors.DictCursor)
 
-    insert_query = """INSERT INTO stock(
+    insert_query = """INSERT INTO stock_daily_summary(
         code, name, date, 
         open_price, high_price, low_price, close_price, 
         volume, per, pbr, eps, bps, market
