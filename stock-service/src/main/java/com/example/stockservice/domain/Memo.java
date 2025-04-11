@@ -1,20 +1,15 @@
 package com.example.stockservice.domain;
 
+import com.example.stockservice.domain.common.BaseTimeEntity;
+import com.example.stockservice.domain.common.BaseIdEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "memo")
 @Getter
-public class Memo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Memo extends BaseIdEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -24,11 +19,16 @@ public class Memo {
     private Stock stock;
 
     @Lob
-    private String Contents;
+    @Column(columnDefinition = "TEXT")
+    private String content;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @Embedded
+    private BaseTimeEntity timeInfo;
 
-    @UpdateTimestamp
-    private LocalDateTime updateAt;
+    @Builder
+    public Memo(User user, Stock stock, String content){
+        this.user = user;
+        this.stock = stock;
+        this.content = content;
+    }
 }

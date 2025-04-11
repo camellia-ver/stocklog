@@ -20,7 +20,7 @@ public class UserInterestStock {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", nullable = false)
+    @JoinColumn(name = "stock_code",referencedColumnName = "code", nullable = false)
     private Stock stock;
 
     private LocalDateTime createdAt;

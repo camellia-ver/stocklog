@@ -1,5 +1,6 @@
 package com.example.stockservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -17,7 +18,8 @@ public class Stock {
     private String name;
     private String market;
 
-    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Memo> memos = new ArrayList<>();
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
