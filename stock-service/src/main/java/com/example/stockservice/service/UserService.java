@@ -1,5 +1,6 @@
 package com.example.stockservice.service;
 
+import com.example.stockservice.domain.Stock;
 import com.example.stockservice.domain.User;
 import com.example.stockservice.domain.UserInterestStock;
 import com.example.stockservice.model.InterestStockDTO;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,27 +40,28 @@ public class UserService {
                         .map(bCryptPasswordEncoder::encode)
                                 .orElseThrow(() -> new IllegalArgumentException("비밀번호는 필수 입력값입니다."));
 
-        List<UserInterestStock> userInterestStocks = reshapeToInterestStock(dto.getInterestStockList());
-
         User newUser = User.builder()
                 .name(dto.getName())
                 .email(dto.getEmail())
+                .interestStocks(new ArrayList<>())
                 .password(encodedPassword)
-                .interestStocks(userInterestStocks)
                 .createDate(LocalDateTime.now(ZoneOffset.UTC))
                 .build();
 
-        userRepository.save(newUser);
-    }
+        for (InterestStockDTO stockDTO: dto.getInterestStockList()) {
+            Stock stock = stockRepository.findByCode(stockDTO.getCode())
+                    .orElseThrow(() -> new IllegalArgumentException("해당 종목이 존재하지 않습니다: " + stockDTO.getCode()));
 
-    private List<UserInterestStock> reshapeToInterestStock(List<InterestStockDTO> stock){
-        return stock.stream()
-                .map(dto -> UserInterestStock.builder()
-                        .code(dto.getCode())
-                        .name(dto.getName())
-                        .market(dto.getMarket())
-                        .build())
-                .collect(Collectors.toList());
+            UserInterestStock userInterestStock = UserInterestStock.builder()
+                    .user(newUser)
+                    .stock(stock)
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            newUser.addInterestStock(userInterestStock);
+        }
+
+        userRepository.save(newUser);
     }
 
     private void validateDuplicateUser(String email){

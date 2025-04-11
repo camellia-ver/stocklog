@@ -56,9 +56,8 @@
                     </div>
                     <div id="selectedStocks" class="mt-3">
                         <h5>선택한 종목</h5>
-                        <ul id="selectedList" class="list-group">
-                            <!-- 선택된 주식들이 여기에 표시됨 -->
-                        </ul>
+                        <ul id="selectedList" class="list-group"></ul>
+                        <input type="hidden" name="_csrf" value="${_csrf.token}" />
                     </div>
                     <button type="submit" class="btn btn-primary w-100 mt-3 signup-btn" th:text="${type} == 'signup' ? '회원가입' : '수정'"></button>
                 </form>

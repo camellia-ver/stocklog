@@ -1,6 +1,6 @@
 package com.example.stockservice.service;
 
-import com.example.stockservice.domain.StockDailySummary;
+import com.example.stockservice.domain.DailySummaryStock;
 import com.example.stockservice.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 public class StockService {
     private final StockRepository stockRepository;
 
-    public List<StockDailySummary> searchStocksByKeyword(String keyword){
+    public List<DailySummaryStock> searchStocksByKeyword(String keyword){
         return stockRepository.findByNameContainingIgnoreCase(keyword).orElse(List.of());
     }
 }

@@ -23,7 +23,6 @@ public class User implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
     private Long id;
 
     // 닉네임
@@ -39,6 +38,9 @@ public class User implements UserDetails, Serializable {
 
     @Column(name = "create_dt", nullable = false)
     private LocalDateTime createDate;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Memo> memos = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserInterestStock> interestStocks = new ArrayList<>();

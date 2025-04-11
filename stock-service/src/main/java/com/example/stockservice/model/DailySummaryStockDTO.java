@@ -1,14 +1,15 @@
 package com.example.stockservice.model;
 
+import com.example.stockservice.domain.Stock;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
-public class StockDayilySummaryDTO {
+public class DailySummaryStockDTO {
     private String code;
     private String name;
+    private String market;
     private LocalDate date;
     private Integer openPrice;
     private Integer highPrice;
@@ -19,5 +20,5 @@ public class StockDayilySummaryDTO {
     private Float pbr;
     private Integer eps;
     private Integer bps;
-    private String market;
+    private Stock stock;
 }

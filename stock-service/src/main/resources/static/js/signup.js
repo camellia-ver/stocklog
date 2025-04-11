@@ -1,29 +1,13 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById("confirmPassword").addEventListener("keyup", validatePassword);
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const message = document.getElementById('message');
+    const form = document.getElementById('userForm');
+    const stockSearchInput = document.getElementById("stockSearch");
+    const suggestions = document.getElementById("suggestions");
+    const selectedList = document.getElementById("selectedList");
 
-    function validatePassword(){
-        let password = document.getElementById('password').value;
-        let confirmPassword = document.getElementById('confirmPassword').value;
-        let message = document.getElementById("message");
-
-        let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-        if (!passwordRegex.test(password)){
-            message.style.color = "red";
-            message.innerText = "비밀번호는 최소 8자, 영문/숫자/특수문자를 포함해야 합니다.";
-            return false;
-        }else if(password != confirmPassword){
-            message.style.color = "red";
-            message.innerText = "비밀번호가 일치하지 않습니다.";
-            return false;
-        }else{
-            message.style.color = "green";
-            message.innerText = "비밀번호가 유효하고 일치합니다.";
-            return true;
-        }
-    }
-
-    let selectedStocks = []
+    let selectedStocks = [];
     let debounceTimer;
 
     const csrfTokenElement = document.querySelector('input[name="_csrf"]');
@@ -34,18 +18,43 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    let stockSearchInput = document.getElementById("stockSearch");
-    if (!stockSearchInput) {
-        console.error("❌ 검색 입력 필드를 찾을 수 없습니다.");
+    if (!stockSearchInput || !suggestions || !form || !selectedList) {
+        console.error('DOM 요소를 찾을 수 없습니다.');
         return;
     }
 
-    stockSearchInput.addEventListener("input", function() {
+    // 🔐 비밀번호 유효성 검사
+    confirmPasswordInput.addEventListener("keyup", validatePassword);
+
+    function validatePassword() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordRegex.test(password)) {
+            showMessage("비밀번호는 최소 8자, 영문/숫자/특수문자를 포함해야 합니다.", "red");
+            return false;
+        } else if (password !== confirmPassword) {
+            showMessage("비밀번호가 일치하지 않습니다.", "red");
+            return false;
+        } else {
+            showMessage("비밀번호가 유효하고 일치합니다.", "green");
+            return true;
+        }
+    }
+
+    function showMessage(text, color) {
+        message.style.color = color;
+        message.innerText = text;
+    }
+
+    // 🔍 자동완성 기능
+    stockSearchInput.addEventListener("input", function () {
         clearTimeout(debounceTimer);
 
-        let query = this.value;
+        const query = this.value;
         if (query.length < 2) {
-            document.getElementById("suggestions").innerHTML = "";
+            suggestions.innerHTML = "";
             return;
         }
 
@@ -57,32 +66,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     'X-CSRF-TOKEN': csrfToken
                 }
             })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                let suggestions = document.getElementById("suggestions");
-                if (!suggestions) {
-                    console.error("❌ 자동완성 목록을 표시할 요소가 없습니다.");
-                    return;
-                }
-
-                suggestions.innerHTML = "";
-                data.forEach(stock => {
-                let li = document.createElement("li");
-                li.className = "list-group-item list-group-item-action";
-                li.textContent = `${stock.name} (${stock.code})`;
-                li.onclick = () => selectStock(stock);
-                suggestions.appendChild(li);
-                });
-            })
-            .catch(error => console.error("❌ 자동완성 API 요청 실패:", error));
+                .then(response => response.json())
+                .then(data => {
+                    suggestions.innerHTML = "";
+                    data.forEach(stock => {
+                        const li = document.createElement("li");
+                        li.className = "list-group-item list-group-item-action";
+                        li.textContent = `${stock.name} (${stock.code})`;
+                        li.onclick = () => selectStock(stock);
+                        suggestions.appendChild(li);
+                    });
+                })
+                .catch(error => console.error("❌ 자동완성 API 요청 실패:", error));
         }, 300);
     });
 
-
-    function selectStock(stock){
-        if (selectedStocks.find(s => s.code === stock.code)){
+    // ⭐ 종목 선택
+    function selectStock(stock) {
+        if (selectedStocks.find(s => s.code === stock.code)) {
             alert('이미 선택한 종목입니다.');
             return;
         }
@@ -90,29 +91,40 @@ document.addEventListener('DOMContentLoaded', function() {
         selectedStocks.push(stock);
         updateSelectedStocks();
 
-        document.getElementById("stockSearch").value = '';
-        document.getElementById("suggestions").innerHTML = '';
+        stockSearchInput.value = '';
+        suggestions.innerHTML = '';
     }
 
-    function updateSelectedStocks(){
-        let selectedList = document.getElementById("selectedList");
+    // ✅ 종목 렌더링 + 숨겨진 input 생성
+    function updateSelectedStocks() {
         selectedList.innerHTML = '';
 
-        selectedStocks.forEach(stock => {
-            let li = document.createElement("li");
-            li.className = "list-group-item d-flex justify-content-between";
+        // 기존 숨은 input 제거
+        document.querySelectorAll("input[name^='interestStockList']").forEach(el => el.remove());
+
+        selectedStocks.forEach((stock, index) => {
+            const li = document.createElement("li");
+            li.className = "list-group-item d-flex justify-content-between align-items-center";
             li.textContent = `${stock.name} (${stock.code})`;
 
-            let removeBtn = document.createElement("button");
-            removeBtn.className = "remove-btn";
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "remove-btn btn btn-sm btn-outline-danger ms-2";
+            removeBtn.type = "button";
             removeBtn.textContent = "❌";
             removeBtn.onclick = () => removeStock(stock.code);
             li.appendChild(removeBtn);
 
             selectedList.appendChild(li);
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = `interestStockList[${index}].stockCode`;
+            input.value = stock.code;
+            form.appendChild(input);
         });
     }
 
+    // ❌ 종목 제거
     function removeStock(code) {
         selectedStocks = selectedStocks.filter(stock => stock.code !== code);
         updateSelectedStocks();

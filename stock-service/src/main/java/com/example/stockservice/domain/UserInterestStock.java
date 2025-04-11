@@ -4,26 +4,26 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
+@Table(name = "userintereststock")
 @Getter
 public class UserInterestStock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
     private Long id;
 
-    @Column(name = "code", nullable = false)
-    private String code;
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "market", nullable = false)
-    private String market;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "stock_id", nullable = false)
+    private Stock stock;
+
+    private LocalDateTime createdAt;
 
     public void setUser(User user){
         this.user = user;
@@ -32,9 +32,9 @@ public class UserInterestStock {
     private UserInterestStock(){}
 
     @Builder
-    public UserInterestStock(String code, String name, String market){
-        this.code = code;
-        this.name = name;
-        this.market = market;
+    public UserInterestStock(User user, Stock stock, LocalDateTime createdAt){
+        this.user = user;
+        this.stock = stock;
+        this.createdAt = createdAt;
     }
 }
