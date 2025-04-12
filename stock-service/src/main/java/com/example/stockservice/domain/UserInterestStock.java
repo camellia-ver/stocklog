@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,10 +23,6 @@ public class UserInterestStock {
     private Stock stock;
 
     private LocalDateTime createdAt;
-
-    public void setUser(User user){
-        this.user = user;
-    }
 
     private UserInterestStock(){}
 

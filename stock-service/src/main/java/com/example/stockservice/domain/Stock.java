@@ -1,6 +1,7 @@
 package com.example.stockservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -19,7 +20,7 @@ public class Stock {
     private String market;
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonManagedReference
     private List<Memo> memos = new ArrayList<>();
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)

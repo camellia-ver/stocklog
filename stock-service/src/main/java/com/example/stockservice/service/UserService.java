@@ -48,17 +48,11 @@ public class UserService {
                 .createDate(LocalDateTime.now(ZoneOffset.UTC))
                 .build();
 
-        for (InterestStockDTO stockDTO: dto.getInterestStockList()) {
+        for (InterestStockDTO stockDTO : dto.getInterestStockList()){
             Stock stock = stockRepository.findByCode(stockDTO.getCode())
                     .orElseThrow(() -> new IllegalArgumentException("해당 종목이 존재하지 않습니다: " + stockDTO.getCode()));
 
-            UserInterestStock userInterestStock = UserInterestStock.builder()
-                    .user(newUser)
-                    .stock(stock)
-                    .createdAt(LocalDateTime.now())
-                    .build();
-
-            newUser.addInterestStock(userInterestStock);
+            newUser.addInterestStock(stock);
         }
 
         userRepository.save(newUser);

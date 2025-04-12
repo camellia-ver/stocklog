@@ -50,9 +50,13 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserInterestStock> interestStocks = new ArrayList<>();
 
-    public void addInterestStock(UserInterestStock stock){
-        this.interestStocks.add(stock);
-        stock.setUser(this);
+    public void addInterestStock(Stock stock){
+        UserInterestStock userInterestStock = UserInterestStock.builder()
+                .user(this)
+                .stock(stock)
+                .createdAt(LocalDateTime.now())
+                .build();
+        this.interestStocks.add(userInterestStock);
     }
 
     private User(){}
