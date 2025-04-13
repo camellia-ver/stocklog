@@ -1,6 +1,6 @@
 package com.example.stockservice.api;
 
-import com.example.stockservice.domain.DailySummaryStock;
+import com.example.stockservice.domain.Stock;
 import com.example.stockservice.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ public class StcokApiController {
     private final StockService stockService;
 
     @GetMapping("/stocks/search")
-    public List<DailySummaryStock> searchStocks(@RequestParam String keyword){
+    public List<Stock> searchStocks(@RequestParam String keyword){
         return stockService.searchStocksByKeyword(keyword);
     }
 }

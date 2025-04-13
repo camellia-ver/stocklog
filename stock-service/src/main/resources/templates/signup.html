@@ -11,8 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/signup.css">
     <link rel="stylesheet" href="/css/custom.css">
-
-    <script src="/js/signup.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header>
@@ -31,22 +29,22 @@
         <div class="card p-5 shadow-lg">
             <div class="card-body">
                 <h5 class="card-title text-center mb-4">회원가입</h5>
-                <form th:action="@{${type}}" method="post">
+                <form id="userForm" th:action="@{${type}}" method="post">
                     <div class="mb-3">
                         <label for="name" class="form-label">이름</label>
-                        <input type="text" id="name" class="form-control" placeholder="이름" required>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="이름" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">이메일</label>
-                        <input type="email" id="email" class="form-control" placeholder="이메일" required>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="이메일" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">비밀번호</label>
-                        <input type="password" id="password" class="form-control" placeholder="비밀번호" autocomplete="new-password"required>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="비밀번호" autocomplete="new-password"required>
                     </div>
                     <div class="mb-3">
                         <label for="confirmPassword" class="form-label">비밀번호 확인</label>
-                        <input type="password" id="confirmPassword" class="form-control" placeholder="비밀번호 확인" autocomplete="new-password" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="비밀번호 확인" autocomplete="new-password" required>
                         <span id="message"></span>
                     </div>
                     <div class="mb-3">
@@ -59,7 +57,7 @@
                         <ul id="selectedList" class="list-group"></ul>
                         <input type="hidden" name="_csrf" value="${_csrf.token}" />
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 mt-3 signup-btn" th:text="${type} == 'signup' ? '회원가입' : '수정'"></button>
+                    <button type="submit" class="btn btn-primary w-100 mt-3 signup-btn" th:text="${type} == '/signup' ? '회원가입' : '수정'"></button>
                 </form>
             </div>
         </div>
@@ -68,6 +66,7 @@
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
+<script src="/js/signup.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -28,17 +28,17 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signupPage(Model model){
-        model.addAttribute("type","signup");
+        model.addAttribute("type","/signup");
         return "signup";
     }
 
     @GetMapping("/settings")
     public String settingPage(Model model){
-        model.addAttribute("type","setting");
+        model.addAttribute("type","/setting");
         return "signup";
     }
 
-    @PostMapping("/user")
+    @PostMapping("/signup")
     public String signup(@ModelAttribute UserDTO request, Model model){
         try{
             userService.join(request);

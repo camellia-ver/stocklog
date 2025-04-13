@@ -79,10 +79,10 @@ def create_stock_data_by_daily(codes:list, date: str):
 
 def create_stock_data_by_basic():
     stock_list = get_stock_basic_data()
-    name_df = pd.DataFrame(stock_list)
-
-    save_to_csv(name_df, now_str('%Y_%m_%d'), "basic")
-    save_to_db(name_df, "basic")
+    stock_df = pd.DataFrame(stock_list)
+    
+    save_to_csv(stock_df, now_str('%Y_%m_%d'), "basic")
+    save_to_db(stock_df, "basic")
 
 def save_to_csv(df: pd.DataFrame, now: str, collect_type: str) -> None:
     path = CSV_DIRS.get(collect_type)

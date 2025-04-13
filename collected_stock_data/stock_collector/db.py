@@ -57,10 +57,25 @@ def save_stock_data_by_basic(datas: List[Dict], db_connect: pymysql.connections.
     cursor = db_connect.cursor(cursors.DictCursor)
 
     insert_query = """INSERT INTO stock(code, name, market) VALUES(%s, %s, %s)"""
-    values = [(data['종목코드'],data['종목명명'],data['구분']) for data in datas]
+    delete_query = """DELETE FROM stock WHERE code = %s"""
+
+    values = [(row['종목코드'], row['종목명'], row['구분']) for _, row in datas.iterrows()]
     
+    cursor.execute("SELECT code FROM stock")
+    existing_codes = {row['code'] for row in cursor.fetchall()}
+
+    new_codes = {row[0] for row in values}
+    codes_to_insert = [row for row in values if row[0] not in existing_codes]
+    codes_to_delete = existing_codes - new_codes
+
     try:
-        cursor.executemany(insert_query, values)
+        if codes_to_insert:
+            cursor.executemany(insert_query, codes_to_insert)
+
+        if codes_to_delete:
+            cursor.executemany(delete_query, [(code,) for code in codes_to_delete])
+
         db_connect.commit()
     except Exception as e:
         logger.info(f"데이터 저장 중 오류 발생: {e}")
+        db_connect.rollback()

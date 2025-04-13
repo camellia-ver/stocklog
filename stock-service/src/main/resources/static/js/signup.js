@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    // 🔐 비밀번호 유효성 검사
     confirmPasswordInput.addEventListener("keyup", validatePassword);
 
     function validatePassword() {
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
         message.innerText = text;
     }
 
-    // 🔍 자동완성 기능
     stockSearchInput.addEventListener("input", function () {
         clearTimeout(debounceTimer);
 
@@ -81,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 300);
     });
 
-    // ⭐ 종목 선택
     function selectStock(stock) {
         if (selectedStocks.find(s => s.code === stock.code)) {
             alert('이미 선택한 종목입니다.');
@@ -95,11 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
         suggestions.innerHTML = '';
     }
 
-    // ✅ 종목 렌더링 + 숨겨진 input 생성
     function updateSelectedStocks() {
         selectedList.innerHTML = '';
 
-        // 기존 숨은 input 제거
         document.querySelectorAll("input[name^='interestStockList']").forEach(el => el.remove());
 
         selectedStocks.forEach((stock, index) => {
@@ -118,13 +113,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const input = document.createElement("input");
             input.type = "hidden";
-            input.name = `interestStockList[${index}].stockCode`;
+            input.name = `interestStockList[${index}].code`;
             input.value = stock.code;
             form.appendChild(input);
         });
     }
 
-    // ❌ 종목 제거
     function removeStock(code) {
         selectedStocks = selectedStocks.filter(stock => stock.code !== code);
         updateSelectedStocks();
