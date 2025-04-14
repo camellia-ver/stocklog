@@ -20,3 +20,5 @@ collected_stock_data/.env
 # OS 별 파일
 .DS_Store
 Thumbs.db
+
+collected_stock_data/data
