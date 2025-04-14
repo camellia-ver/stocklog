@@ -1,7 +1,6 @@
 package com.example.stockservice.model;
 
 import com.example.stockservice.domain.DailySummaryStock;
-import com.example.stockservice.domain.RealtimeStock;
 import com.example.stockservice.domain.UserInterestStock;
 import lombok.Data;
 
@@ -14,6 +13,5 @@ public class StockDTO {
     private String market;
 
     private List<DailySummaryStock> dailySummaryStocks;
-    private List<RealtimeStock> realtimeStocks;
     private List<UserInterestStock> userInterestStocks;
 }

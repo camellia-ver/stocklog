@@ -1,6 +1,5 @@
 package com.example.stockservice.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,9 +24,6 @@ public class Stock {
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
     private List<DailySummaryStock> dailySummaryStocks;
-
-    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
-    private List<RealtimeStock> realtimeStocks;
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
     private List<UserInterestStock> userInterestStocks;

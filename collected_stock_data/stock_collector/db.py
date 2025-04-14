@@ -22,19 +22,6 @@ def connect_db() -> pymysql.connections.Connection:
         logger.info(f"DB 연결 실패: {e}")
         return None
 
-def save_stock_data_by_realtime(datas: List[Dict], db_connect: pymysql.connections.Connection):
-    cursor = db_connect.cursor(cursors.DictCursor)
-
-    datas = datas.to_dict(orient='records')
-    insert_query = """INSERT INTO realtimestock(price, created_at, stock_code) VALUES(%s, %s, %s)"""
-    values = [(data['가격'],data['시간'],data['종목코드']) for data in datas]
-
-    try:
-        cursor.executemany(insert_query, values)
-        db_connect.commit()
-    except Exception as e:
-        logger.error(f"데이터 저장 중 오류 발생: {e}")
-
 def save_stock_data_by_daily(datas: List[Dict], db_connect: pymysql.connections.Connection):
     cursor = db_connect.cursor(cursors.DictCursor)
 
@@ -43,9 +30,9 @@ def save_stock_data_by_daily(datas: List[Dict], db_connect: pymysql.connections.
         volume, per, pbr, eps, bps, stock_code
     ) 
     VALUES(%s, %s, %s, %s, %s, %s, %s,%s, %s, %s, %s)"""
-    values = [(data['시가'],data['고가'],data['저가'],data['종가'],
-               data['거래량'],data['PER'],data['PBR'],data['EPS'],
-               data['BPS'],data['종목코드']) for data in datas]
+    values = [(row['날짜'],row['시가'],row['고가'],row['저가'],row['종가'],
+               row['거래량'],row['PER'],row['PBR'],row['EPS'],
+               row['BPS'],row['종목코드']) for _, row in datas.iterrows()]
     
     try:
         cursor.executemany(insert_query, values)
