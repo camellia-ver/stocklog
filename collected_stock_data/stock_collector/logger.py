@@ -51,12 +51,6 @@ error_handler.setLevel(logging.ERROR)
 error_handler.addFilter(LevelFilter(logging.ERROR))
 error_handler.setFormatter(formatter)
 
-# 순환 로그 핸들러 (DEBUG 포함 전체 로그)
-file_handler = RotatingFileHandler(
-    LOG_FILE, maxBytes=1 * 1024 * 1024, backupCount=3, encoding='utf-8'  # ← 수정된 부분
-)
-file_handler.setFormatter(formatter)
-
 # 콘솔 출력 핸들러
 console_handler = logging.StreamHandler()
 console_handler.setFormatter(formatter)
@@ -65,7 +59,6 @@ console_handler.setFormatter(formatter)
 logger.addHandler(info_handler)
 logger.addHandler(warning_handler)
 logger.addHandler(error_handler)
-logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
 __all__ = ["logger"]

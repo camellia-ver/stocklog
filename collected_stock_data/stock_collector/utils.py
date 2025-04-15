@@ -4,26 +4,13 @@ from pykrx import stock
 import pandas as pd
 from dotenv import load_dotenv
 from .logger import logger
+from .db import connect_db, save_stock_data_by_daily, save_stock_data_by_basic
 
 load_dotenv()
-
-def get_codes(date_str: str) -> list:
-    try:
-        return stock.get_market_ticker_list(date_str, market="ALL")
-    except Exception as e:
-        logger.error(f"[get_codes] 오류 발생: {e}")
-        return []
-
-def get_daily_summary_stock_data(date: str, code: str) -> pd.DataFrame:
-    ohlcv = stock.get_market_ohlcv_by_date(date,date,code)
-    fundamental = stock.get_market_fundamental_by_date(date,date,code)
-
-    if ohlcv.empty or fundamental.empty:
-        logger.warning(f"[get_daily_summary_stock_data] 데이터 없음: {code} - {date}")
-        return pd.DataFrame()
-
-    logger.info(f"[get_daily_summary_stock_data] 데이터 수집 성공: {code} - {date}")
-    return pd.concat([ohlcv, fundamental], axis=1)
+CSV_DIRS = {
+    "daily": os.getenv("CSV_DAILY_DIR", "data/summary"),
+    "basic": os.getenv("CSV_BASIC_DIR", "data/basic")
+}
 
 def now_str(fmt='%Y-%m-%d %H:%M:%S') -> str:
     return datetime.now().strftime(fmt)
@@ -35,26 +22,39 @@ def init_env():
 
     logger.info(f"[{now_str()}] 환경 초기화 완료. DATA_DIR={data_dir}, LOG_DIR={log_dir}")
 
-def get_stock_basic_data(date_str=None) -> list:
-    if not date_str:
-        date_str = datetime.today().strftime('%Y%m%d')
+def save_to_csv(df: pd.DataFrame, now: str, collect_type: str) -> None:
+    path = CSV_DIRS.get(collect_type)
 
-    stock_list = []
-
-    try:
-        for market in ("KOSPI","KOSDAQ"):
-            codes = stock.get_market_ticker_list(date_str, market=market)
-            for code in codes:
-                name = stock.get_market_ticker_name(code)
-                stock_list.append(
-                    {
-                        "종목코드": code,
-                        "종목명": name,
-                        "구분": market
-                    }
-                )
-    except Exception as e:
-        logger.error(f"[get_stock_basic_data] 종목명 수집 실패 {type(e).__name__}: {e}")
-        return []  
+    if not path:
+        logger.warning(f"❌ 잘못된 저장 타입: {collect_type}")
+        return
     
-    return stock_list
+    os.makedirs(path, exist_ok=True)
+
+    filename_type = {
+        "daily": "summary_data",
+        "basic": "basic_data"
+    }.get(collect_type, "data")
+
+    filename = f"{path}/{filename_type}_{now}.csv"
+    df.to_csv(filename, index=False, encoding='utf-8-sig')
+
+def save_to_db(df: pd.DataFrame, collect_type: str) -> None:
+    db_connect = None
+    try:
+        db_connect = connect_db()
+    except Exception as e:
+        logger.error(f"❌ DB 연결 실패: {e}")
+
+    save_funcs = {
+        "daily": save_stock_data_by_daily,
+        "basic": save_stock_data_by_basic
+    }
+
+    if db_connect and collect_type in save_funcs:
+        try:
+            save_funcs[collect_type](df, db_connect)
+        finally:
+            db_connect.close()
+    else:
+        logger.warning(f"❌ 잘못된 수집 타입 또는 DB 연결 실패: {collect_type}")
