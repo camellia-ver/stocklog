@@ -1,13 +1,11 @@
-import multiprocessing
-from stock_collector.utils import init_env, now_str
-from worker import process_stock_data
+from stock_collector.utils import init_env
+from stock_collector.multiprocessing import run_parallel_collection
 
-if __name__ == '__main__':
+if __name__ == '__main__':  
     init_env()
 
-    today = now_str('%Y-%m-%d')
     code_groups = ['KOSPI','KOSDAQ']
+    start_data = '20250416'
+    end_date = '20250418'
     
-    process_count = min(len(code_groups), multiprocessing.cpu_count)
-    with multiprocessing.Pool(process_count) as pool:
-        pool.map(process_stock_data, code_groups)
+    run_parallel_collection(code_groups, start_data, end_date)

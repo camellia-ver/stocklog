@@ -1,4 +1,4 @@
-from stock_collector.collector import create_stock_data_by_basic
+from stock_collector.collector import collect_basic_stock_info
 
 if __name__ == '__main__':
-    create_stock_data_by_basic()
+    collect_basic_stock_info()
