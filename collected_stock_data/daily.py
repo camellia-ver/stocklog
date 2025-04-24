@@ -5,7 +5,7 @@ if __name__ == '__main__':
     init_env()
 
     code_groups = ['KOSPI','KOSDAQ']
-    start_data = '20250416'
-    end_date = '20250418'
+    start_data = '20250419'
+    end_date = '20250424'
     
     run_parallel_collection(code_groups, start_data, end_date)

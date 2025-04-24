@@ -59,6 +59,12 @@ public class User implements UserDetails, Serializable {
         this.interestStocks.add(userInterestStock);
     }
 
+    public void addInterestStock(List<Stock> stocks){
+        for (Stock stock : stocks){
+            this.addInterestStock(stock);
+        }
+    }
+
     private User(){}
 
     @Builder
