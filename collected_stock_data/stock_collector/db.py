@@ -54,10 +54,19 @@ def save_daily_stock_data(stock_data: DataFrame, connection: pymysql.connections
                row['BPS'], row['종목코드']) for _, row in stock_data.iterrows()]
 
     try:
-        db_cursor.executemany(insert_sql, insert_values)
+        batch_size = 1000
+        for i in range(0, len(insert_values), batch_size):
+            db_cursor.executemany(insert_sql, insert_values[i:i+batch_size])
         connection.commit()
+    except pymysql.IntegrityError as e:
+        if e.args[0] == 1062: 
+            logger.warning(f"중복된 값이 존재하여 삽입되지 않았습니다: {e}")
+            connection.rollback()  
+        else:
+            logger.error("데이터 저장 중 오류 발생", exc_info=True)
+            connection.rollback()
     except Exception as e:
-        logger.error("데이터 저장 중 오류 발생", exc_info=True)
+        logger.error("예기치 못한 오류 발생", exc_info=True)
         connection.rollback()
     finally:
         close_connection(connection)
