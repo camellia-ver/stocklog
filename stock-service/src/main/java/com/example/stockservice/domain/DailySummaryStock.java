@@ -1,5 +1,6 @@
 package com.example.stockservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -27,5 +28,6 @@ public class DailySummaryStock {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_code", nullable = false)
+    @JsonBackReference
     private Stock stock;
 }

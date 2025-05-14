@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --primary: #e84393;
+  --primary-dark: #d63075;
+  --text-dark: #2c3e50;
+  --gradient: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+  --font-base: 'Noto Sans KR', sans-serif;
+}

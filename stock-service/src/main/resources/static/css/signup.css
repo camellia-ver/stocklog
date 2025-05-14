@@ -1,161 +1,111 @@
-.container {
-    width: 100%;
-    max-width: 900px; /* 적절한 크기 지정 */
+body.signup-page {
+  font-family: var(--font-base);
+  min-height: 100vh;
+  background: var(--gradient);
+  color: var(--text-dark);
 }
 
-.card {
-    width: 100%;
-    max-height: 90vh; /* 카드가 화면을 넘지 않도록 설정 */
-    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 추가 */
-    border-radius: 12px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: auto;
-    padding: 20px;
+/* NAVBAR */
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
-.card-body {
-    width: 100%;
+.nav-link {
+  font-weight: 500;
 }
 
-form {
-    width: 100%;
+.nav-link:hover {
+  color: var(--primary-dark) !important;
 }
 
-#stockSearch {
-    max-width: 100%; /* 입력 필드가 화면 크기에 맞게 확장되도록 */
+.signup-container {
+  flex: 1;
 }
 
-#suggestions {
-    max-height: 150px; /* 제안 목록의 최대 높이를 설정 */
-    overflow-y: auto; /* 내용이 넘칠 경우 스크롤바가 나타나도록 */
+.signup-card {
+  background: #fff;
+  border-radius: 1rem;
+  max-width: 420px;
+  width: 100%;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.signup-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
 }
 
-#selectedStocks {
-    max-height: 250px; /* 선택된 주식 목록의 최대 높이 */
+.signup-title {
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: var(--text-dark);
 }
 
+.form-control {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+}
+
+.form-control:focus {
+  border-color: var--primary;
+  box-shadow: none;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+#suggestions,
 #selectedList {
-    max-height: 180px; /* 선택된 종목 리스트의 최대 높이 */
-    overflow-y: auto; /* 스크롤이 가능하도록 설정 */
-}
-
-@media (max-width: 768px) {
-    .card {
-        max-width: 100%;
-        padding: 20px;
-        margin: 10px;
-    }
-
-    .signup-btn {
-        margin-top: 10px; /* 작은 화면에서는 버튼 여백 줄이기 */
-    }
-
-    label {
-        margin-bottom: 0.7rem; /* 작은 화면에서 레이블과 입력 필드 사이 여백을 조금 더 늘림 */
-    }
-
-    input {
-        margin-bottom: 1.2rem; /* 작은 화면에서 입력 필드 간 여백을 더 많이 설정 */
-    }
-
-    .card-title {
-        font-size: 1.5rem; /* 작은 화면에서 제목 크기 줄이기 */
-    }
-
-    #suggestions, #selectedStocks {
-            max-height: 200px; /* 작은 화면에서 제안 목록과 선택 목록의 최대 높이 조정 */
-        }
-
-        #selectedList {
-            max-height: 150px; /* 선택된 목록의 최대 높이 */
-        }
-}
-
-/* 기본 폰트 크기 */
-.card-title {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.signup-btn {
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
-    background-color: #e84393;
-    border-color: #e84393;
-    color: white;
-}
-
-.signup-btn:hover {
-    background-color: #d63075;
-    border-color: #d63075;
-    color: white; /* 호버 상태에서 텍스트 색상이 유지되도록 */
-}
-
-.signup-btn:active {
-    background-color: #d63075 !important;
-    border-color: #d63075 !important;
-    transform: scale(0.98);
-    box-shadow: 0px 2px 4px rgba(232, 67, 147, 0.5);
-    outline: none !important;
-}
-
-.signup-btn:focus {
-    outline: none !important;  /* 기본 outline 제거 */
-    box-shadow: none !important; /* 포커스 상태에서 기본 box-shadow 제거 */
-}
-
-.card-title {
-    color: #2c3e50;
-    font-weight: bold; /* 글씨 굵게 */
-    font-size: 1.8rem; /* 크기 조정 */
-    text-transform: uppercase; /* 대문자로 변환 */
-}
-
-label {
-    display: block;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-input {
-    margin-bottom: 1.5rem;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 100%;
-}
-
-input:focus {
-    border-color: #e84393;
-    outline: none;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 #suggestions li {
-    padding: 5px;
-    cursor: pointer;
+  padding: 0.5rem;
+  cursor: pointer;
 }
-
 #suggestions li:hover {
-    background-color: #f0f0f0;
+  background-color: rgba(0,0,0,0.03);
 }
 
+#selectedList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
 .remove-btn {
-    background: none;
-    border: none;
-    color: red;
-    font-size: 16px;
-    cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--primary-dark);
+  font-size: 1rem;
+  cursor: pointer;
 }
-
 .remove-btn:hover {
-    font-weight: bold;
+  color: var(--primary);
 }
 
-#confirmPassword{
-    margin-bottom:5px !important;
+.signup-btn {
+  background: var(--primary) !important;
+  color: #fff !important;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.1s;
+}
+.signup-btn:hover {
+  background: var(--primary-dark) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+.signup-btn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 576px) {
+  .signup-card { padding: 1.5rem; margin: 0 1rem; }
 }

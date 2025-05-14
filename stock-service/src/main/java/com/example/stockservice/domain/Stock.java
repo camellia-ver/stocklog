@@ -23,6 +23,7 @@ public class Stock {
     private List<Memo> memos = new ArrayList<>();
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<DailySummaryStock> dailySummaryStocks;
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)

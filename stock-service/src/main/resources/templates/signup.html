@@ -1,76 +1,95 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="주식 정보를 확인하고 메모를 남길 수 있는 Stock Log 서비스">
-    <meta name="keywords" content="주식, 투자, 메모, Stock Log">
-    <meta name="author" content="Jo YoungRan">
-    <title>Stock Log</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="description" content="주식 정보를 확인하고 메모를 남길 수 있는 Stock Log 서비스" />
+    <meta name="keywords" content="주식, 투자, 메모, Stock Log" />
+    <meta name="author" content="Jo YoungRan" />
+    <title>Stock Log - 회원가입</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/signup.css">
-    <link rel="stylesheet" href="/css/custom.css">
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/variables.css" />
+    <link rel="stylesheet" href="/css/signup.css" />
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="signup-page d-flex flex-column">
+
+<!-- NAVBAR -->
 <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Stock Log</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand text-primary" href="/">Stock Log</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">로그인</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 </header>
 
+<!-- SIGNUP FORM -->
 <main class="flex-grow-1 d-flex justify-content-center align-items-center">
-    <div class="container">
-        <div class="card p-5 shadow-lg">
-            <div class="card-body">
-                <h5 class="card-title text-center mb-4">회원가입</h5>
-                <form id="userForm" th:action="@{${type}}" th:object="${userDTO}" method="post">
-                    <div class="mb-3">
-                        <label th:for="*{name}" class="form-label">이름</label>
-                        <input type="text" th:field="*{name}" class="form-control" placeholder="이름">
-                        <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label th:for="*{email}" class="form-label">이메일</label>
-                        <input type="email" th:field="*{email}" class="form-control" placeholder="이메일">
-                        <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label th:for="*{password}" class="form-label">비밀번호</label>
-                        <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호" autocomplete="new-password">
-                        <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-                    </div>
-                    <div class="mb-3">
-                        <label th:for="*{confirmPassword}" class="form-label">비밀번호 확인</label>
-                        <input type="password" th:field="*{confirmPassword}" class="form-control" placeholder="비밀번호 확인" autocomplete="new-password">
-                        <div class="text-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
-                        <span id="message"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label for="stockSearch" class="form-label">관심 주식 설정하기</label>
-                        <input type="text" id="stockSearch" class="form-control" placeholder="종목 검색">
-                        <ul id="suggestions" class="list-group mt-2"></ul>
-                    </div>
-                    <div id="selectedStocks" class="mt-3">
-                        <h5>선택한 종목</h5>
-                        <ul id="selectedList" class="list-group"></ul>
-                        <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 mt-3 signup-btn" th:text="${type} == '/signup' ? '회원가입' : '수정'"></button>
-                </form>
-            </div>
+    <div class="signup-container container p-3">
+        <div class="signup-card mx-auto p-4 shadow-lg">
+            <h2 class="signup-title mb-4">회원가입</h2>
+            <form id="userForm" th:action="@{/signup}" th:object="${userDTO}" method="post">
+
+                <div class="form-floating mb-3">
+                    <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="이름">
+                    <label for="name">이름</label>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="이메일">
+                    <label for="email">이메일</label>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="비밀번호" autocomplete="new-password">
+                    <label for="password">비밀번호</label>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="password" th:field="*{confirmPassword}" class="form-control" id="confirmPassword" placeholder="비밀번호 확인" autocomplete="new-password">
+                    <label for="confirmPassword">비밀번호 확인</label>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+                    <div id="message" class="form-text"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="stockSearch" class="form-label">관심 주식 설정하기</label>
+                    <input type="text" id="stockSearch" class="form-control" placeholder="종목 검색">
+                    <ul id="suggestions" class="list-group mt-2"></ul>
+                </div>
+
+                <div id="selectedStocks" class="mt-4">
+                    <h5 class="mb-2">선택한 종목</h5>
+                    <ul id="selectedList" class="list-group"></ul>
+                </div>
+
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <button type="submit" class="btn btn-gradient w-100 signup-btn mt-4">회원가입</button>
+            </form>
         </div>
     </div>
 </main>
 
+<!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <script src="/js/signup.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
