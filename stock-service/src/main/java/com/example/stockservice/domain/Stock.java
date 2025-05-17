@@ -24,8 +24,8 @@ public class Stock {
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<DailySummaryStock> dailySummaryStocks;
+    private List<DailySummaryStock> dailySummaryStocks = new ArrayList<>();
 
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL)
-    private List<UserInterestStock> userInterestStocks;
+    private List<UserInterestStock> userInterestStocks = new ArrayList<>();
 }

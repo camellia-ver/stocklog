@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dailysummarystock", uniqueConstraints = @UniqueConstraint(columnNames = {"stock_id", "date"}))
+@Table(name = "dailysummarystock", uniqueConstraints = @UniqueConstraint(columnNames = {"stock_code", "date"}))
 @Getter
 public class DailySummaryStock {
     @Id
